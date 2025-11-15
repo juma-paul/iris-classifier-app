@@ -10,7 +10,6 @@ data/raw/*
 .env
 mlflow.db
 mlruns/
-models/*.pkl
 confusion_matrix.png
 *.egg-info/
 ml_project_dev_process.md
