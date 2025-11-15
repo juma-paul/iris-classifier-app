@@ -20,10 +20,10 @@ jobs:
                 python-version: '13.3'
             
             - name: Install uv
-              uses: pip install uv
+              run: pip install uv
             
             - name: Install dependencies
-              uses: uv sync
+              run: uv sync
 
             - name: Run tests
-              uses: uv run pytest tests/ -v
+              run: uv run pytest tests/ -v
