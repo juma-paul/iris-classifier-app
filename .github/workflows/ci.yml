@@ -25,8 +25,5 @@ jobs:
             - name: Install dependencies
               run: uv sync
 
-            - name: Prepare data
-              run: uv run python src/data/prepare_data.py
-
             - name: Run tests
               run: uv run pytest tests/ -v
