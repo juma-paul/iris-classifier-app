@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
     push:
@@ -27,3 +27,30 @@ jobs:
 
             - name: Run tests
               run: uv run pytest tests/ -v
+    deploy: 
+        needs: test
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Log into Docker Hub
+              uses: docker/login-action@v2
+              with: 
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+            - name: Build and push Docker image
+              run: docker buildx build --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME }}/iris-classifier:latest --push . 
+
+            - name: Deploy to EC2
+              run: |
+                echo '${{ secrets.EC2_SSH_KEY }}' > key.pem
+                chmod 400 key.pem
+                ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@3.138.114.109 << 'EOF'
+                  sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/iris-classifier:latest
+                  sudo docker stop iris-api || true
+                  sudo docker rm iris-api | true
+                  sudo docker run -d --name iris-api -p 80:8000 ${{ secrets.DOCKERHUB_USERNAME }}/iris-classifier:latest
+                EOF 
