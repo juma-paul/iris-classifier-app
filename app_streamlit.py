@@ -3,16 +3,22 @@ import requests
 import pandas as pd
 import io
 
+API_URL = st.secrets('API_URL')
+
 st.set_page_config(page_title="Iris Classifier", page_icon="⚜️", layout="wide")
 
 # CSS
 st.markdown("""
     <style>
     .main-title {
-        font-size: 2.5rem;
+        font-size: 3.5rem;
         font-weight: 600;
         color: #1e3a8a;
         margin-bottom: 0.5rem;
+    }
+    .sub-title {
+        font-size: 1.1rem;
+        color: #64748b;
     }
     .metric-card {
         background-color: #f8fafc;
@@ -36,7 +42,7 @@ st.markdown("""
 
 # Header
 st.markdown('<p class="main-title">Iris Species Classifier</p>', unsafe_allow_html=True)
-st.markdown("ML model for iris flower classification")
+st.markdown('<p class="sub-title">ML model for iris flower classification</p>')
 st.divider()
 
 # Model Performance Metrics
@@ -106,13 +112,15 @@ with left_col:
         }
         
         try:
-            response = requests.post("http://18.190.86.245/predict", json=payload)
+            response = requests.post(f"{API_URL}/predict", json=payload)
             
             if response.status_code == 200:
                 prediction = response.json()["prediction"]
                 species_names = ["Setosa", "Versicolor", "Virginica"]
                 
+                predicted_species = species_names[prediction]
                 st.success(f"**Predicted Species:** {species_names[prediction]}")
+                st.image(f"images/{predicted_species.lower()}.jpg", width=200)
             else:
                 st.error("Prediction failed. Please try again.")
         except Exception as e:
@@ -167,7 +175,7 @@ with right_col:
                     payload = {"feature_list": batch_data}
                     
                     try:
-                        response = requests.post("http://18.190.86.245/predict-batch", json=payload)
+                        response = requests.post("{API_URL}/predict-batch", json=payload)
                         
                         if response.status_code == 200:
                             predictions = response.json()
