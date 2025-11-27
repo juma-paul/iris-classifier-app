@@ -235,9 +235,9 @@ This project is open source and available under the MIT License.
 
 ## 👤 Author
 
-**Your Name**
+**Juma Paul**
 - GitHub: [@juma-paul](https://github.com/juma-paul)
-- LinkedIn: [Juma R. Paul ](https://www.linkedin.com/in/juma-paul/)
+- LinkedIn: [Juma Paul ](https://www.linkedin.com/in/juma-paul/)
 - Portfolio: [Juma Paul](https://your-website.com)
 
 ## 🙏 Acknowledgments
