@@ -16,7 +16,7 @@ This project demonstrates a complete end-to-end machine learning system, from da
 
 ### Key Features
 
-- ✅ **Production-Ready ML Pipeline** - Automated data processing, training, and evaluation
+- ✅ **Modular ML Pipeline** - Organized scripts for data processing, training, and evaluation
 - ✅ **RESTful API** - FastAPI with single and batch prediction endpoints
 - ✅ **Comprehensive Testing** - 20+ unit and integration tests
 - ✅ **CI/CD Pipeline** - Automated testing and deployment with GitHub Actions
